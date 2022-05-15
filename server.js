@@ -1,6 +1,8 @@
 const express = require("express");
 const authRoutes = require("./src/routes/auth");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
 const app = express();
 const port = 4000;
 
@@ -21,6 +23,16 @@ app.use((req, res, next) => {
 
 app.use("/v1/auth", authRoutes);
 
-app.listen(port, () => {
-    console.log(`This server running on port : ${port}`);
-});
+mongoose
+    .connect(
+        "mongodb+srv://RohmanM:ex04qnDKfp9k9k95@cluster0.m7bvb.mongodb.net/Users?retryWrites=true&w=majority"
+    )
+    .then(() => {
+        app.listen(port, () => {
+            console.log(`This server running on port : ${port}`);
+            console.log("Connection to DB success");
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
