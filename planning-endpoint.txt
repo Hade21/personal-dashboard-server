@@ -17,12 +17,10 @@ Group : AUTHENTICATION
 {url}/{version}/auth/Register
 
 req : {
-    user: {
         fullname: 'Muhammad Abdurrohman'
         username: 'rohman'
         email: 'rohman@mail.com
         password: 'R#hm@n1999
-    }
 }
 
 res:
@@ -36,42 +34,42 @@ res:
 
 422 --> Missing Request Reqirement
 {
-    body: 'Missing username/email/password'
+    message: 'Missing username/email/password'
 }
 
 403 --> Username has taken
 {
-    body: "Usename/Email has taken"
+    message: "Usename/Email has taken"
 }
 
 [2] LOGIN
 {url}/{version}/auth/LOGIN
 
 req : {
-    user: {
+    
         username: 'rohman'/email: 'rohman@mail.com
         password: 'R#hma@n1999'
-    }
+    
 }
 
 res ;
 200 --> User authorized
 {
-    user: {
+    
         username: 'rohman'
         password: 'R#hm@n1999'
         token: 'oijhuejgvfdnsanlcbucoabljcnlfej'
-    }
+    
 }
 
 422 --> Missing username/password
 {
-    body: 'Missing username/password
+    message: 'Missing username/password
 }
 
 403 --> Email/Password Invalid
 {
-    body: "Username/Password Invalid
+    message: "Username/Password Invalid
 }
 
 Group : Todo
