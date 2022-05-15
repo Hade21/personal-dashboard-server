@@ -1,0 +1,77 @@
+STRUKTUR
+{url}/{version}/{grouping}/{endpoint}
+
+RESPONSE STATUS
+200 OK                      --> Call API success
+201 CREATED                 --> ADD Content success
+400 BAD REQUEST             --> Error on client side
+422 UNPROCESSED INPUT       --> Missing request requirement 
+401 UNAUTHORIZE             --> User not authorized to the REQUEST
+403 FORBIDDEN               --> User not allowed to access
+500 INTERNAL SERVER ERROR   --> Error in SERVER side
+502 BAD GATEWAY             --> Invalid Response fron another request
+
+Group : AUTHENTICATION
+
+[1] Register
+{url}/{version}/auth/Register
+
+req : {
+    user: {
+        fullname: 'Muhammad Abdurrohman'
+        username: 'rohman'
+        email: 'rohman@mail.com
+        password: 'R#hm@n1999
+    }
+}
+
+res:
+201 --> User Created
+{
+    user:{
+        name: 'Muhammad Abdurrohman'
+        password: 'R#hm@n1999'
+    }
+}
+
+422 --> Missing Request Reqirement
+{
+    body: 'Missing username/email/password'
+}
+
+403 --> Username has taken
+{
+    body: "Usename/Email has taken"
+}
+
+[2] LOGIN
+{url}/{version}/auth/LOGIN
+
+req : {
+    user: {
+        username: 'rohman'/email: 'rohman@mail.com
+        password: 'R#hma@n1999'
+    }
+}
+
+res ;
+200 --> User authorized
+{
+    user: {
+        username: 'rohman'
+        password: 'R#hm@n1999'
+        token: 'oijhuejgvfdnsanlcbucoabljcnlfej'
+    }
+}
+
+422 --> Missing username/password
+{
+    body: 'Missing username/password
+}
+
+403 --> Email/Password Invalid
+{
+    body: "Username/Password Invalid
+}
+
+Group : Todo
