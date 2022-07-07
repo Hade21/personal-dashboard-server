@@ -58,16 +58,7 @@ const userDataRegister = [
 ];
 
 const userLogin = [
-  body("username")
-    .optional()
-    .isString()
-    .withMessage("Username must be string")
-    .bail(true),
-  body("email")
-    .optional()
-    .isEmail()
-    .withMessage("Provide valid email")
-    .bail(true),
+  body("user").isString().withMessage("Username/Email invalid").bail(true),
   body("password")
     .exists({ checkFalsy: true })
     .withMessage("Password required")

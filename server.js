@@ -33,16 +33,17 @@ app.use(bodyParser.json());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/notes", notesRoutes);
 
+//error-intercept
+app.use((error, req, res, next) => {
+  const status = error.errorStatus || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
+});
+
 //db-connect
-mongoose
-  .connect(database)
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server running di ${port}`);
-      console.log("Sukses terhubung ke Mongodb");
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-    console.log("Connection to DB failed");
-  });
+require("./src/db/connection");
+
+app.listen(port, () => {
+  console.log(`Server running di ${port}`);
+});
