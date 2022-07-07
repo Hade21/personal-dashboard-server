@@ -8,6 +8,7 @@ const notesController = require("../controller/notes");
 const { notesValidation } = require("../validator/notes");
 
 //routing
+router.get("/all", notesController.getAllNotes);
 router.post("/new", notesValidation, notesController.createNotes);
 
 module.exports = router;

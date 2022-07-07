@@ -33,22 +33,24 @@ exports.createNotes = (req, res, next) => {
           data: error,
         });
       });
+  } catch (error) {
+    return next(error);
+  }
+};
 
-    // const result = {
-    //   message: "Notes added",
-    //   data: {
-
-    //     title: title,
-    //     body: body,
-    //     createdAt: new Date(),
-    //     author: {
-    //       userId: "1",
-    //       name: "Test",
-    //     },
-    //   },
-    // };
-
-    // return res.status(201).json(result);
+exports.getAllNotes = (req, res, next) => {
+  try {
+    notesModel
+      .find()
+      .then((result) => {
+        return res.status(200).json({
+          message: "Success",
+          data: result,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   } catch (error) {
     return next(error);
   }
