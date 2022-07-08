@@ -8,8 +8,8 @@ const notesValidation = [
     .isString()
     .withMessage("Title must be string")
     .bail(true)
-    .isLength({ min: 5, max: 24 })
-    .withMessage("Title min 5 characters")
+    .isLength({ min: 5, max: 50 })
+    .withMessage("Title min 5 characters and max 50 characters")
     .bail(true),
   body("body")
     .exists({ checkFalsy: true })

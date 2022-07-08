@@ -40,27 +40,57 @@ exports.createNotes = (req, res, next) => {
 
 exports.getAllNotes = (req, res, next) => {
   try {
+    const page = req.query.page || 1;
+    const items = req.query.items || 5;
+
+    let totalNotes;
+
     notesModel
       .find()
-      .then((result) => {
-        if (!result.length > 0) {
-          res.status(404).json({
+      .countDocuments()
+      .then((count) => {
+        totalNotes = count;
+        if (!totalNotes > 0) {
+          return res.status(404).json({
             message: "Tidak ada catatan!",
           });
         }
-
+        return notesModel
+          .find()
+          .skip((page - 1) * items)
+          .limit(items);
+      })
+      .then((result) => {
         return res.status(200).json({
           message: "Success",
           data: result,
-          length: result.length,
-        });
-      })
-      .catch((error) => {
-        return res.status(500).json({
-          message: "Failed",
-          data: error,
+          page: page,
+          items_per_page: items,
+          total_notes: totalNotes,
         });
       });
+
+    // notesModel
+    //   .find()
+    //   .then((result) => {
+    //     if (!result.length > 0) {
+    //       res.status(404).json({
+    //         message: "Tidak ada catatan!",
+    //       });
+    //     }
+
+    //     return res.status(200).json({
+    //       message: "Success",
+    //       data: result,
+    //       length: result.length,
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     return res.status(500).json({
+    //       message: "Failed",
+    //       data: error,
+    //     });
+    //   });
   } catch (error) {
     return next(error);
   }
@@ -120,17 +150,13 @@ exports.deleteNotes = (req, res, next) => {
           throw error;
         }
 
-        return notesModel
-          .findByIdAndRemove(id)
-          .then((result) => {
-            return res.status(200).json({
-              message: "Success",
-              data: result,
-            });
-          })
-          .catch((err) => {
-            next(err);
-          });
+        return notesModel.findByIdAndRemove(id);
+      })
+      .then((result) => {
+        return res.status(200).json({
+          message: "Success",
+          data: result,
+        });
       })
       .catch((error) => {
         next(error);
