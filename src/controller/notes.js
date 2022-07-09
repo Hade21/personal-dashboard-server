@@ -11,12 +11,13 @@ exports.createNotes = (req, res, next) => {
       throw error;
     }
 
-    const { title, body, author } = req.body;
+    const { title, body } = req.body;
+    const { username, _id } = req.user;
 
     const newNotes = new notesModel({
       title: title,
       body: body,
-      author,
+      author: { username, _id },
     });
 
     newNotes
