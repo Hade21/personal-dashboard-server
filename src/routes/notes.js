@@ -11,14 +11,9 @@ const { notesValidation } = require("../validator/notes");
 const { protect } = require("../middleware/authMiddleware");
 
 //routing
-router.get("/all", notesController.getAllNotes);
-router.post("/new", protect, notesValidation, notesController.createNotes);
-router.put(
-  "/update/:id",
-  protect,
-  notesValidation,
-  notesController.updateNotes
-);
-router.delete("/delete/:id", protect, notesController.deleteNotes);
+router.get("/", notesController.getAllNotes);
+router.post("/", protect, notesValidation, notesController.createNotes);
+router.put("/:id", protect, notesValidation, notesController.updateNotes);
+router.delete("/:id", protect, notesController.deleteNotes);
 
 module.exports = router;
