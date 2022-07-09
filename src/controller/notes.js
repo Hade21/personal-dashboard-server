@@ -61,13 +61,19 @@ exports.getAllNotes = (req, res, next) => {
           .limit(items);
       })
       .then((result) => {
-        return res.status(200).json({
-          message: "Success",
-          data: result,
-          page: page,
-          items_per_page: items,
-          total_notes: totalNotes,
-        });
+        if (!result.length > 0) {
+          return res.status(404).json({
+            message: "Tidak ada catatan!",
+          });
+        } else {
+          return res.status(200).json({
+            message: "Success",
+            data: result,
+            page: page,
+            items_per_page: items,
+            total_notes: totalNotes,
+          });
+        }
       });
 
     // notesModel
